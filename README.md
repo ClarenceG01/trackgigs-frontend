@@ -1,12 +1,59 @@
-# React + Vite
+# 🚀 TrackGigs
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**TrackGigs** is a web app for freelancers to manage gigs, clients, deadlines, and payments — all in one place.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ MVP Features
 
-## Expanding the ESLint configuration
+- ✅ User registration & login (with email verification)
+-  [ ] Add & manage freelance gigs
+-  [ ] Track client details
+-  [ ] Update payment status
+-  [ ] Simple dashboard for overview
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠 Tech Stack
+
+- **Frontend**: Reactjs, Tailwind CSS 4
+- **Backend**: Node.js, Express, MongoDB (see [trackgigs-server](https://github.com/clarenceG01/trackgigs-server))
+- **Other Tools**: Nodemailer (for email configuration)
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/ClarenceG01/trackgigs-frontend
+cd trackgigs-frontend
+```
+### 2. Install Dependencies
+```bash
+npm install
+```
+
+### 3. Run the Development Server
+```bash
+npm run dev
+```
+Visit http://localhost:5173 to see the app.
+
+### 📁 Project Structure
+```bash
+/trackgigs
+  /public           # Static assets and images
+  /src
+      /assets
+      /components       # Reusable UI components
+      /pages          
+      /utils            # Helpers and config
+```
+### 🧑‍💻 Author
+Clarence Gatama Chege
+
+
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/clarenceG01)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/clarencegatamachege/)
