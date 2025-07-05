@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@plugin "daisyui";
+:root {
+  --background: #ffffff;
+  --foreground: #252525;
+  --green: #54bd95;
+}
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-green: var(--green);
+  --color-light-text: #a6a6a6;
+  --color-dark-text: #191a15;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-logo: var(--font-poetsen);
+  --font-inter: var(--font-inter);
+  --shadow-card: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  --shadow-icons: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+*,
+html {
+  scroll-behavior: smooth;
+}
