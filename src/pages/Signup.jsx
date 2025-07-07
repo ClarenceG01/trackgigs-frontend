@@ -44,7 +44,7 @@ export default function Signup() {
       <div className="bg-green md:w-1/3 hidden md:block"></div>
       <div className="w-full md:w-2/3 flex flex-col justify-center">
         <div className="w-full md:w-2/3 mx-auto p-6 rounded-lg shadow-none md:shadow-md">
-          <h1 className="font-logo text-green font-bold text-2xl md:text-3xl leading-6 text-center">
+          <h1 className="font-logo text-green text-2xl md:text-3xl leading-6 text-center">
             TrackGigs
           </h1>
           <form onSubmit={handleSubmit(onSubmit)}>

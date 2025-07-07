@@ -62,6 +62,10 @@ export default function VerifyEmail() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-2xl font-bold mb-4">Verify Your Email</h1>
+      <div className="text-gray-600 mb-4">
+        Please enter the 6-digit OTP sent to your email
+        <p className="font-bold text-center">{email}</p>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm">
         <input
           type="text"

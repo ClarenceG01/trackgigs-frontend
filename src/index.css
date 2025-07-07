@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poetsen+One&display=swap");
 @import "tailwindcss";
 @plugin "daisyui";
 :root {
@@ -13,8 +14,8 @@
   --color-dark-text: #191a15;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-logo: var(--font-poetsen);
-  --font-inter: var(--font-inter);
+  --font-logo: "Poetsen One", sans-serif;
+  --font-inter: "Inter", sans-serif;
   --shadow-card: rgba(0, 0, 0, 0.15) 0px 2px 8px;
   --shadow-icons: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
 }

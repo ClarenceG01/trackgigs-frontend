@@ -21,14 +21,29 @@ export default function Login() {
         },
         body: JSON.stringify(data),
       });
-      const { message } = await response.json();
+      const responseData = await response.json();
+      console.log(responseData);
       if (response.ok) {
-        successToast(message ?? "Login successfull", "success-login");
+        successToast(
+          responseData.message ?? "Login successfull",
+          "success-login"
+        );
         setTimeout(() => navigate("/dashboard"), 3000);
         return;
       }
+      if (responseData?.status.includes("verified")) {
+        errorToast(
+          responseData.message ?? "Email not verified",
+          "verify-success"
+        );
+        setTimeout(
+          () => navigate("/verify", { state: { email: data.email } }),
+          3000
+        );
+        return;
+      }
       return errorToast(
-        message ?? "Login failed. Check credentials",
+        responseData.message ?? "Login failed. Check credentials",
         "failed login"
       );
     } catch (error) {
@@ -43,7 +58,7 @@ export default function Login() {
       <div className="bg-green md:w-1/3 hidden md:block"></div>
       <div className="w-full md:w-2/3 flex flex-col justify-center">
         <div className="w-full md:w-2/3 mx-auto p-6 rounded-lg shadow-none md:shadow-md">
-          <h1 className="font-logo text-green font-bold text-2xl md:text-3xl leading-6 text-center">
+          <h1 className="font-logo text-green text-2xl md:text-3xl leading-6 text-center">
             TrackGigs
           </h1>
           <form onSubmit={handleSubmit(onSubmit)}>
