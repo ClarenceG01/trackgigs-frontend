@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poetsen+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poetsen+One&display=swap");
 @import "tailwindcss";
 @plugin "daisyui";
 :root {
@@ -16,8 +16,11 @@
   --font-mono: var(--font-geist-mono);
   --font-logo: "Poetsen One", sans-serif;
   --font-inter: "Inter", sans-serif;
+  --font-abz: "ABeeZee", sans-serif;
   --shadow-card: rgba(0, 0, 0, 0.15) 0px 2px 8px;
   --shadow-icons: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+  --shadow-sidecircle: 2px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  --shadow-dashcard: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 @media (prefers-color-scheme: dark) {

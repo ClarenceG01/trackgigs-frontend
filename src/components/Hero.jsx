@@ -34,7 +34,7 @@ export default function Hero() {
             Total Income
           </span>
           <div className="flex items-center gap-1 ">
-            <span className="text-base font-medium">Ksh 24500</span>
+            <span className="text-base text-black font-medium">Ksh 24500</span>
             <img
               src="/images/bar-chart.svg"
               alt="vector"
