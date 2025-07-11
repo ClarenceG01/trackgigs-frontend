@@ -1,46 +1,48 @@
-import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { format } from "date-fns";
 
-const CalendarWidget = ({ tasks }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
-  // Filter tasks for the selected day
-  const tasksForDate = tasks.filter(
-    (task) =>
-      new Date(task.dueDate).toDateString() === selectedDate.toDateString()
-  );
-
+const CalendarDashboard = ({
+  tasks,
+  events,
+  selectedDate,
+  setSelectedDate,
+}) => {
+  console.log(tasks);
   return (
-    <div className="">
-      <Calendar onChange={setSelectedDate} value={selectedDate} />
-      <div className="mt-1">
-        <h3 className="font-semibold text-lg mb-2">
-          Tasks due on {selectedDate.toDateString()}
-        </h3>
-        {tasksForDate.length > 0 ? (
-          <ul className="space-y-2">
-            {tasksForDate.map((task, idx) => (
-              <li
-                key={idx}
-                className={`px-3 py-2 rounded-lg ${
-                  task.status === "completed"
-                    ? "text-green-900 bg-green"
-                    : task.status.includes("progress")
-                    ? "text-amber-600 bg-amber-200"
-                    : "text-red-600 bg-red-200"
-                }`}
-              >
-                {task.title}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-gray-500">No tasks for this day.</p>
-        )}
-      </div>
+    <div className=" bg-white p-4">
+      <h2 className="text-xl font-semibold mb-4 font-abz">🗓️ Calendar</h2>
+      <Calendar
+        onChange={setSelectedDate}
+        value={selectedDate}
+        className=" p-2 font-abz "
+        tileContent={({ date, view }) => {
+          if (view === "month") {
+            const dateStr = format(date, "yyyy-MM-dd");
+            const hasTask = tasks.some((t) => t.dueDate === dateStr);
+            const hasEvent = events.some((e) => e.date === dateStr);
+
+            return (
+              <div className="flex justify-center mt-1">
+                {(hasTask || hasEvent) && (
+                  <span
+                    className={`h-2 w-2 rounded-full ${
+                      hasTask && hasEvent
+                        ? "bg-purple-500"
+                        : hasTask
+                        ? "bg-blue-500"
+                        : "bg-green-500"
+                    }`}
+                  ></span>
+                )}
+              </div>
+            );
+          }
+          return null;
+        }}
+      />
     </div>
   );
 };
 
-export default CalendarWidget;
+export default CalendarDashboard;

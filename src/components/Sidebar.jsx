@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 import { FaTasks } from "react-icons/fa";
 import { MdWork } from "react-icons/md";
+import { SlCalender } from "react-icons/sl";
 const Sidebar = ({ expand, setExpand }) => {
   const sidebarContent = [
     {
@@ -17,9 +18,9 @@ const Sidebar = ({ expand, setExpand }) => {
       route: "gigs",
     },
     {
-      name: "Tasks",
-      icon: <FaTasks className="size-6" />,
-      route: "tasks",
+      name: "Schedule",
+      icon: <SlCalender className="size-6" />,
+      route: "schedule",
     },
     {
       name: "Settings",

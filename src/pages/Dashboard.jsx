@@ -6,11 +6,21 @@ import {
   IoIosArrowUp,
 } from "react-icons/io";
 import ProgressChart from "../components/ProgressChart";
-import CalendarWidget from "../components/Calender";
-
-
+import CalendarDashboard from "../components/Calender";
+import { format } from "date-fns";
+// dummy data
+import { tasks, events } from "../data";
 const Dashboard = () => {
-	const [taskStatus,setTaskStatus]=useState('all')
+  const [taskStatus, setTaskStatus] = useState("all");
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const formattedSelectedDate = format(selectedDate, "yyyy-MM-dd");
+  const tasksForDay = tasks.filter(
+    (task) => task.dueDate === formattedSelectedDate
+  );
+
+  const eventsForDay = events.filter(
+    (event) => event.date === formattedSelectedDate
+  );
   const projects = [
     {
       name: "Project 1",
@@ -39,40 +49,6 @@ const Dashboard = () => {
       dueDate: "2023-12-15",
       status: "In Progress",
       progress: "50",
-    },
-  ];
-
-  // Dummy task data
-  const tasks = [
-    {
-      title: "Design homepage",
-      gigName: "Project 1",
-      dueDate: new Date("2025-07-09"),
-      status: "in-progress",
-    },
-    {
-      title: "Setup database",
-      gigName: "Project 2",
-      dueDate: new Date("2025-07-09"),
-      status: "not-started",
-    },
-    {
-      title: "API integration",
-      gigName: "Project 3",
-      dueDate: new Date("2023-12-15"),
-      status: "not-started",
-    },
-    {
-      title: "Testing",
-      gigName: "Project 4",
-      dueDate: new Date("2023-12-20"),
-      status: "completed",
-    },
-    {
-      title: "Deploy to production",
-      gigName: "Project 4",
-      dueDate: new Date("2023-12-25"),
-      status: "not-started",
     },
   ];
 
@@ -150,9 +126,9 @@ const Dashboard = () => {
         </div>
       </section>
       {/* project summary and overall progress */}
-      <section className="flex gap-4 py-3 px-8">
+      <section className="flex gap-4 my-6 px-8">
         <div className="">
-          <h1 className="text-[#060606] text-xl tracking-wide">
+          <h1 className="text-[#060606] text-xl tracking-wide h-[40px]">
             Project summary
           </h1>
           <table className="table table-zebra">
@@ -181,86 +157,96 @@ const Dashboard = () => {
             </tbody>
           </table>
         </div>
-        <div className="bg-red-600">
-          <p>some other stats</p>
+        <div className="flex flex-col">
+          <div className="flex items-start justify-between h-[40px]">
+            <h2 className="text-[#060606] text-lg tracking-wide">
+              Upcoming Tasks
+            </h2>
+            {/* dropdown */}
+            <div className="flex items-center justify-between mb-4 gap-3">
+              <div className="flex items-center gap-2">
+                <p className="text-sm tracking-tight">Filter by:</p>
+                <select
+                  className="border border-gray-300 rounded-lg px-2 py-1"
+                  onChange={(e) => setTaskStatus(e.target.value)}
+                >
+                  <option value="all">All</option>
+                  <option value="in-progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                  <option value="not-started">Not Started</option>
+                </select>
+              </div>
+              <button className="bg-green text-white px-2 py-1 rounded-lg">
+                Add Task
+              </button>
+            </div>
+          </div>
+          <table className="table table-zebra">
+            <thead>
+              <tr>
+                <td>Title</td>
+                <td>Gig</td>
+                <td>Due Date</td>
+                <td>Status</td>
+              </tr>
+            </thead>
+            <tbody>
+              {taskStatus === "all"
+                ? tasks.map((task, idx) => (
+                    <tr key={idx}>
+                      <td>{task.title}</td>
+                      <td>{task.gigName}</td>
+                      <td>{task.dueDate}</td>
+                      <td>
+                        <span
+                          className={`${
+                            task.status === "completed"
+                              ? "text-green-900 bg-green"
+                              : task.status.includes("progress")
+                              ? "text-amber-600 bg-amber-200"
+                              : "text-red-600 bg-red-200"
+                          } rounded-2xl py-2 px-3 w-fit text-center`}
+                        >
+                          {task.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                : tasks
+                    .filter((task) => task.status === taskStatus)
+                    .map((task, idx) => (
+                      <tr key={idx}>
+                        <td>{task.title}</td>
+                        <td>{task.gigName}</td>
+                        <td>{task.dueDate.toLocaleDateString()}</td>
+                        <td>
+                          <span
+                            className={`${
+                              task.status === "completed"
+                                ? "text-green-900 bg-green"
+                                : task.status.includes("progress")
+                                ? "text-amber-600 bg-amber-200"
+                                : "text-red-600 bg-red-200"
+                            } rounded-2xl py-2 px-3 w-fit text-center`}
+                          >
+                            {task.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+            </tbody>
+          </table>
         </div>
       </section>
       {/* users tasks for each gig plus calendar */}
       <section className="py-3 px-8">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex flex-col">
-            <div className="flex items-start justify-between">
-              <h2 className="text-[#060606] text-lg tracking-wide">Upcoming Tasks</h2>
-              {/* dropdown */}
-              <div className="flex items-center justify-between mb-4 gap-3">
-                <div className="flex items-center gap-2">
-                  <p className="text-sm tracking-tight">Filter by:</p>
-                  <select className="border border-gray-300 rounded-lg px-2 py-1" onChange={(e)=>setTaskStatus(e.target.value)}>
-                    <option value="all">All</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                    <option value="not-started">Not Started</option>
-                  </select>
-                </div>
-                <button className="bg-green text-white px-2 py-1 rounded-lg">
-                  Add Task
-                </button>
-              </div>
-            </div>
-            <table className="table table-zebra">
-              <thead>
-                <tr>
-                  <td>Title</td>
-                  <td>Gig</td>
-                  <td>Due Date</td>
-                  <td>Status</td>
-                </tr>
-              </thead>
-              <tbody>
-				{taskStatus === 'all' ? tasks.map((task, idx) => (
-                  <tr key={idx}>
-                    <td>{task.title}</td>
-                    <td>{task.gigName}</td>
-                    <td>{task.dueDate.toLocaleDateString()}</td>
-                    <td>
-                      <span
-                        className={`${
-                          task.status === "completed"
-                            ? "text-green-900 bg-green"
-                            : task.status.includes("progress")
-                            ? "text-amber-600 bg-amber-200"
-                            : "text-red-600 bg-red-200"
-                        } rounded-2xl py-2 px-3 w-fit text-center`}
-                      >
-                        {task.status}
-                      </span>
-                    </td>
-                  </tr>
-                )):tasks.filter((task)=>task.status===taskStatus).map((task, idx) => (
-                  <tr key={idx}>
-                    <td>{task.title}</td>
-                    <td>{task.gigName}</td>
-                    <td>{task.dueDate.toLocaleDateString()}</td>
-                    <td>
-                      <span
-                        className={`${
-                          task.status === "completed"
-                            ? "text-green-900 bg-green"
-                            : task.status.includes("progress")
-                            ? "text-amber-600 bg-amber-200"
-                            : "text-red-600 bg-red-200"
-                        } rounded-2xl py-2 px-3 w-fit text-center`}
-                      >
-                        {task.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <CalendarWidget tasks={tasks} />
-        </div>
+        <CalendarDashboard
+          tasks={tasks}
+          events={events}
+          formattedSelectedDate={formattedSelectedDate}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
       </section>
     </div>
   );
