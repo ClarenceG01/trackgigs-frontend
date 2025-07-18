@@ -1,63 +1,44 @@
-// verify 6 digit otp ui only, no logic
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
 import { errorToast, successToast } from "../utils/toasts";
+import { useMutation } from "@tanstack/react-query";
+import { verifyEmail, resendOtp } from "../api/api";
+
 
 export default function VerifyEmail() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [otp, setOtp] = useState("");
   const { register, handleSubmit } = useForm();
+  const verifyMutation = useMutation({
+    mutationFn: verifyEmail,
+    onError:(error)=>{
+      errorToast(error.message);
+    },
+    onSuccess: () => {
+      successToast(`Email ${email} verified successfully!`, "verify-success");
+      navigate("/login");
+    },
+  });
+  const resendOtpMutation = useMutation({
+    mutationFn: resendOtp,
+    onError: (error) => {
+      errorToast(error.message);
+    },
+    onSuccess: () => {
+      successToast("OTP resent successfully!", "otp-resend-success");
+    },
+  });
   const email = state?.email || "";
   const onSubmit = async (data) => {
-    try {
-      const response = await fetch("/api/users/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, otp: data.otp.trim() }),
-      });
-
-      if (response.ok) {
-        successToast("Email verified successfully", "verify-success");
-        setTimeout(() => {
-          navigate("/login");
-        }, 3000);
-      } else {
-        const errorData = await response.json();
-        errorToast(errorData.message || "Verification failed", "verify-error");
-      }
-    } catch (error) {
-      console.error(error);
-      errorToast("Something went wrong", "verify-error");
+    if (!data.otp) {
+      return errorToast("OTP is required", "empty-otp");
     }
+    verifyMutation.mutate({ email, otp: data.otp });
   };
   const handleResendOtp = async (email) => {
-    try {
-      setOtp("");
-      const response = await fetch("/api/users/resend-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      if (response.ok) {
-        successToast(
-          "OTP resent successfully. Check your email.",
-          "resend-success"
-        );
-      } else {
-        const errorData = await response.json();
-        errorToast(errorData.message || "Failed to resend OTP", "resend-error");
-      }
-    } catch (error) {
-      console.error(error);
-      errorToast("Something went wrong", "resend-error");
-    }
+     resendOtpMutation.mutate(email);
   };
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -70,23 +51,23 @@ export default function VerifyEmail() {
         <input
           type="text"
           placeholder="Enter your OTP"
-          {...register("otp", { required: true })}
+          {...register("otp")}
           value={otp}
           onChange={(e) => setOtp(e.target.value)}
           className="w-full p-2 border rounded mb-4"
         />
         <button
           type="submit"
-          className="w-full bg-green text-white p-2 rounded hover:bg-green-dark transition-colors"
+          className="w-full bg-green text-white p-2 rounded hover:bg-green-dark transition-colors cursor-pointer"
         >
-          Verify
+          {verifyMutation.isPending ? "Verifying..." : "Verify Email"}
         </button>
         {/* resend OTP span link */}
         <p
           onClick={() => handleResendOtp(email)}
           className="text-blue-500 cursor-pointer hover:underline text-center mt-4"
         >
-          Resend OTP
+          {resendOtpMutation.isPending ? "Resending OTP..." : "Resend OTP"}
         </p>
       </form>
     </div>

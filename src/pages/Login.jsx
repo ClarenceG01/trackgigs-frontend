@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "../api/api";
 export default function Login() {
   const navigate = useNavigate();
   const {
@@ -12,46 +14,24 @@ export default function Login() {
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
+  const loginMutation = useMutation({
+    mutationFn: login,
+    onSuccess: () => {
+      successToast("Logged in successfully!", "login-s");
+      navigate("/dashboard");
+    },
+    onError: (error, data) => {
+      console.log(error);
+      if (error.message.includes("not verified")) {
+        console.log("yes includes");
+        console.log(data);
+        navigate("/verify", { state: { email: data.email } });
+      }
+      errorToast(error.message, "login-e");
+    },
+  });
   const onSubmit = async (data) => {
-    try {
-      const response = await fetch("/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const responseData = await response.json();
-      console.log(responseData);
-      if (response.ok) {
-        successToast(
-          responseData.message ?? "Login successfull",
-          "success-login"
-        );
-        setTimeout(() => navigate("/dashboard"), 3000);
-        return;
-      }
-      if (responseData?.status.includes("verified")) {
-        errorToast(
-          responseData.message ?? "Email not verified",
-          "verify-success"
-        );
-        setTimeout(
-          () => navigate("/verify", { state: { email: data.email } }),
-          3000
-        );
-        return;
-      }
-      return errorToast(
-        responseData.message ?? "Login failed. Check credentials",
-        "failed login"
-      );
-    } catch (error) {
-      return errorToast(
-        error.message ?? "Login failed. Please try again.",
-        "failed login"
-      );
-    }
+    loginMutation.mutate(data);
   };
   return (
     <div className="flex flex-col justify-center md:flex-row h-screen">
@@ -108,7 +88,7 @@ export default function Login() {
               type="submit"
               className="w-full py-2 bg-green text-white rounded-md font-bold hover:bg-green/90 transition-colors duration-300 mb-4 cursor-pointer"
             >
-              Sign In
+              {loginMutation.isPending ? "Sign in..." : "Sign in "}
             </button>
             <div className="text-center text-gray-500 mb-4">
               Don't have an account?{" "}

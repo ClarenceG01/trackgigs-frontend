@@ -4,25 +4,25 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   const [isMenuOpen, setMenuOpen] = useState(false);
   return (
-    <div className=" py-2 flex justify-between items-center relative ">
+    <nav className=" py-2 flex justify-between items-center relative ">
       <h1 className="font-logo text-green text-2xl md:text-3xl leading-6">
         TrackGigs
       </h1>
       <ul className="hidden md:flex gap-10 font-inter text-light-text text-lg">
-        <li className="hover:text-green hover:font-semibold transition-colors duration-300 cursor-pointer">
+        <li className="hover:text-green  transition-all duration-300 cursor-pointer">
           Home
         </li>
         <a href="#services">
-          <li className="hover:text-green hover:font-semibold transition-colors duration-300 cursor-pointer">
+          <li className="hover:text-green transition-all duration-300 cursor-pointer">
             How It Works
           </li>
         </a>
 
-        <li className="hover:text-green hover:font-semibold transition-colors duration-300 cursor-pointer">
+        <li className="hover:text-green transition-all duration-300 cursor-pointer">
           Features
         </li>
 
-        <li className="hover:text-green hover:font-semibold transition-colors duration-300 cursor-pointer">
+        <li className="hover:text-green transition-all duration-300 cursor-pointer">
           FAQ
         </li>
       </ul>
@@ -69,6 +69,6 @@ export default function Navbar() {
           </div>
         </div>
       )}
-    </div>
+    </nav>
   );
 }

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useMutation } from "@tanstack/react-query";
+import { signUp } from "../api/api";
 export default function Signup() {
   const navigate = useNavigate();
   const {
@@ -13,31 +15,27 @@ export default function Signup() {
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const signupMutation = useMutation({
+    mutationFn: signUp,
+    onError: (error) => {
+      console.log(error);
+      errorToast(error.message);
+    },
+    onSuccess: (data) => {
+      successToast("Registered successfully!", "signup-s");
+      navigate("/verify", {
+        state: { email: data.email },
+      });
+    },
+  });
   const onSubmit = async (data) => {
+    if (!data.username || !data.email || !data.password || !data.cpassword) {
+      return errorToast("All fields are required", "empty-fields");
+    }
     if (data.password !== data.cpassword) {
       return errorToast("Password must match", "not-matching");
     }
-    try {
-      const response = await fetch("/api/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (response.ok) {
-        successToast("Account created successfully", "signup-success");
-        setTimeout(() => {
-          navigate("/verify", { state: { email: data.email } });
-        }, 3000);
-      } else {
-        const errorData = await response.json();
-        errorToast(errorData.message || "Something went wrong", "signup-error");
-      }
-    } catch (error) {
-      console.error(error);
-      return errorToast("Something went wrong", "signup-error");
-    }
+    signupMutation.mutate(data);
   };
   return (
     <div className="flex flex-col justify-center md:flex-row h-screen ">
@@ -126,7 +124,7 @@ export default function Signup() {
               type="submit"
               className="w-full py-2 bg-green text-white rounded-md font-bold hover:bg-green/90 transition-colors duration-300 mb-4 cursor-pointer"
             >
-              Sign Up
+              {signupMutation.isPending ? "Signing Up..." : "Sign Up"}
             </button>
             <div className="text-center text-gray-500 mb-4">
               Already have an account?{" "}
