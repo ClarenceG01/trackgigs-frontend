@@ -8,20 +8,12 @@ export default function UserNav() {
   const { user, logout } = useAuthStore();
   const [visibleDetails, setVisibleDetails] = useState(false);
   return (
-    <nav className="flex items-center border-b border-gray-200 py-2 px-6 space-x-2">
-      <h1 className="lg:w-1/2 w-fit text-[#000606] text-2xl tracking-[0.16px]">
+    <nav className="flex items-center justify-between border-b border-gray-200 py-2 px-1 md:px-6 space-x-0.5 md:space-x-2">
+      <h1 className="lg:w-1/2 w-fit text-[#000606] text-2xl tracking-[0.16px] hidden md:block font-abz">
         Dashboard
       </h1>
-      <div className="flex justify-center items-center gap-4 flex-1">
-        <div className="flex items-center gap-3 px-2.5 py-1 h-fit border border-gray-300 rounded-lg">
-          <CiSearch className="size-6 " />
-          <input
-            type="search"
-            name=""
-            id=""
-            className="w-full border-0 outline-none"
-          />
-        </div>
+	  <img src="/images/TrackGigs.png" alt="" className="md:hidden size-13"/>
+      <div className="flex justify-center items-center gap-4">
         <div className="relative">
           <IoMdNotificationsOutline className="size-7" />
           <div className="absolute -top-2 -right-1.5 bg-green text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">

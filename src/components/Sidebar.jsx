@@ -2,7 +2,6 @@ import { RxDashboard } from "react-icons/rx";
 import { IoSettingsOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
-import { FaTasks } from "react-icons/fa";
 import { MdWork } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
 const Sidebar = ({ expand, setExpand }) => {
@@ -34,14 +33,14 @@ const Sidebar = ({ expand, setExpand }) => {
     },
   ];
   return (
-    <div className="fixed">
+    <div className="fixed hidden md:block">
       <div
         className={`${
           expand ? "w-[250px]" : "w-[100px]"
         } bg-green min-h-screen py-5 px-5 font-abz relative`}
       >
         <div
-          className="absolute top-7 -right-5 bg-white flex items-center size-10 p-2 gap-2.5 rounded-full shadow-sidecircle cursor-pointer hover:scale-105 transition duration-300"
+          className="absolute top-7 -right-5 bg-white hidden lg:flex items-center size-10 p-2 gap-2.5 rounded-full shadow-sidecircle cursor-pointer hover:scale-105 transition duration-300 "
           onClick={() => setExpand((prev) => !prev)}
         >
           {expand ? (
@@ -67,7 +66,7 @@ const Sidebar = ({ expand, setExpand }) => {
             <img src="/images/icons.svg" alt="" className="size-6" />
           </div>
           {expand && (
-            <p className="text-center text-[#171717] font-inter">Add a gig</p>
+            <p className="text-center text-[#171717]">Add a gig</p>
           )}
         </button>
         <div className="flex flex-col gap-2.5">

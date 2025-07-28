@@ -8,9 +8,9 @@ const DashboardLayout = () => {
     <div className="min-h-screen">
       <Sidebar expand={expand} setExpand={setExpand} />
       <div
-        className={`transition-all duration-300 ${
-          expand ? "ml-[250px]" : "ml-[100px]"
-        } overflow-y-auto`}
+        className={`transition-all duration-300 m-0 ${
+          expand ? "md:ml-[250px]" : "md:ml-[100px]"
+        }  overflow-y-auto`}
       >
         <Outlet />
       </div>

@@ -52,7 +52,7 @@ const Dashboard = () => {
     <div className="min-h-screen font-abz">
       <UserNav />
       {/* dashboard stats */}
-      <section className="py-3 px-8">
+      <section className="py-3 px-4 md:px-8">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-[#060606] text-xl tracking-wide">Overview</h1>
 
@@ -61,7 +61,7 @@ const Dashboard = () => {
             <IoIosArrowDown className="size-5 inline-block cursor-pointer" />
           </div>
         </div>
-        <div className="flex gap-6">
+        <div className="flex flex-col md:flex-row gap-6">
           <div className="flex flex-col items-start gap-2.5 pt-4.5 pr-11 pb-6 pl-4.5 rounded-xl bg-white/34 shadow-dashcard">
             <div></div>
             <p className="text-[#797979] text-sm">Total Revenue</p>
@@ -89,14 +89,14 @@ const Dashboard = () => {
         </div>
       </section>
       {/* project summary and overall progress */}
-      <section className="flex gap-4 my-6 px-8">
-        <div className="">
-          <h1 className="text-[#060606] text-xl tracking-wide h-[40px]">
+      <section className="flex flex-col md:flex-row gap-4 my-6 px-4 md:px-8">
+        <div className="w-full md:w-1/2">
+          <h1 className="text-[#060606] tracking-wide h-[40px] text-center md:text-left text-base md:text-lg ">
             Project summary
           </h1>
-          <table className="table table-zebra">
+          <table className="table-sm table-zebra block mx-auto w-fit">
             <thead>
-              <tr>
+              <tr className="text-xs md:text-base">
                 <td>Name</td>
                 <td>Client Name</td>
                 <td>Due Date</td>
@@ -121,13 +121,13 @@ const Dashboard = () => {
           </table>
         </div>
         <div className="flex flex-col">
-          <div className="flex items-start justify-between h-[40px]">
-            <h2 className="text-[#060606] text-lg tracking-wide">
+          <div className="flex flex-col md:flex-row items-center md:items-start space-x-3 h-[40px] mb-5">
+            <h2 className="text-[#060606] text-base md:text-lg tracking-wide">
               Upcoming Tasks
             </h2>
             {/* dropdown */}
-            <div className="flex items-center justify-between mb-4 gap-3">
-              <div className="flex items-center gap-2">
+            <div className="flex items-start md:items-center justify-between mb-4 gap-3 w-full md:w-fit">
+              <div className="flex flex-row items-center gap-2 ">
                 <p className="text-sm tracking-tight">Filter by:</p>
                 <select
                   className="border border-gray-300 rounded-lg px-2 py-1"
@@ -139,14 +139,14 @@ const Dashboard = () => {
                   <option value="not-started">Not Started</option>
                 </select>
               </div>
-              <button className="bg-green text-white px-2 py-1 rounded-lg">
+              <button className="bg-green text-white px-2 py-1 rounded-lg text-nowrap">
                 Add Task
               </button>
             </div>
           </div>
-          <table className="table table-zebra">
+          <table className="table-sm table-zebra mt-2">
             <thead>
-              <tr>
+              <tr className="text-sm md:text-base">
                 <td>Title</td>
                 <td>Gig</td>
                 <td>Due Date</td>
@@ -156,11 +156,11 @@ const Dashboard = () => {
             <tbody>
               {taskStatus === "all"
                 ? tasks.map((task, idx) => (
-                    <tr key={idx}>
+                    <tr key={idx} >
                       <td>{task.title}</td>
-                      <td>{task.gigName}</td>
+                      <td>{task.gig}</td>
                       <td>{task.dueDate}</td>
-                      <td>
+                      <td className="text-nowrap">
                         <span
                           className={`${
                             task.status === "completed"
