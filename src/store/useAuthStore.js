@@ -6,7 +6,10 @@ export const useAuthStore = create(
       user: null,
       isLoggedIn: false,
       login: (userData) => set({ user: userData, isLoggedIn: true }),
-      logout: () => set({ user: null, isLoggedIn: false }),
+      logout: () => {
+        set({ user: null, isLoggedIn: false });
+        localStorage.removeItem("trackgigs-auth");
+      },
     }),
     {
       name: "trackgigs-auth",
