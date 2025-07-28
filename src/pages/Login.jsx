@@ -5,7 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../api/api";
+import { useAuthStore } from "../store/useAuthStore";
 export default function Login() {
+const {login: setUser} = useAuthStore();
   const navigate = useNavigate();
   const {
     register,
@@ -16,15 +18,13 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const loginMutation = useMutation({
     mutationFn: login,
-    onSuccess: () => {
+    onSuccess: (data) => {
       successToast("Logged in successfully!", "login-s");
+      setUser(data.user);
       navigate("/dashboard");
     },
     onError: (error, data) => {
-      console.log(error);
       if (error.message.includes("not verified")) {
-        console.log("yes includes");
-        console.log(data);
         navigate("/verify", { state: { email: data.email } });
       }
       errorToast(error.message, "login-e");
