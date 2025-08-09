@@ -17,6 +17,7 @@
 ## 🛠 Tech Stack
 
 - **Frontend**: Reactjs, Tailwind CSS 4
+- **State Management**: Zustand for global state
 - **Backend**: Node.js, Express, MongoDB (see [trackgigs-server](https://github.com/clarenceG01/trackgigs-server))
 - **Other Tools**: Nodemailer (for email configuration)
 
